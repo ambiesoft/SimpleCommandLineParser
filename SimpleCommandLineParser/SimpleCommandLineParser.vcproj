@@ -120,7 +120,7 @@
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="2"
 				WarningLevel="3"
-				DebugInformationFormat="3"
+				DebugInformationFormat="0"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -136,7 +136,7 @@
 				AdditionalDependencies="$(NoInherit)"
 				OutputFile="C:\Linkout\TOpener\$(ProjectName).dll"
 				LinkIncremental="1"
-				GenerateDebugInformation="true"
+				GenerateDebugInformation="false"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -181,7 +181,7 @@
 	</References>
 	<Files>
 		<Filter
-			Name="ソース ファイル"
+			Name="2 Source"
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
@@ -215,7 +215,7 @@
 			</File>
 		</Filter>
 		<Filter
-			Name="ヘッダー ファイル"
+			Name="1 Header"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>

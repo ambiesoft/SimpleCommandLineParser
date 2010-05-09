@@ -32,7 +32,7 @@ namespace Ambiesoft {
 					bool determined = false;
 					if ( args->Length > i )
 					{
-						if ( !isOptionLeft(args[i+i]) )
+						if ( !isOptionLeft(args[i+1]) )
 						{
 							hashes_[s] = args[i+1];
 							++i;
@@ -58,5 +58,20 @@ namespace Ambiesoft {
 			}
 		}
 
+		property String^ Mainargs[int]
+		{
+			String^ get(int i)
+			{
+				return mainargs_[i];
+			}
+		}
+
+		property int MainargLength
+		{
+			int get()
+			{
+				return mainargs_.Count;
+			}
+		}
 	};
 }
