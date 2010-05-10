@@ -3,14 +3,25 @@
 #pragma once
 
 using namespace System;
+using namespace System::Collections::Generic;
 
 namespace Ambiesoft {
+
+	public enum class ARGUMENT_TYPE
+	{
+		MUST,
+		MUSTNOT,
+		BOTH,
+	};
 
 	public ref class SimpleCommandLineParser
 	{
 	private:
-		System::Collections::Hashtable hashes_;
-		System::Collections::Generic::List<String^> mainargs_;
+		array<String^>^ args_;
+		Dictionary<String^,ARGUMENT_TYPE> def_validops_;
+		Dictionary<String^,Object^> in_validops_;
+		List<String^> in_invalidops_;
+		List<String^> mainargs_;
 
 		bool isOptionLeft(String^ s)
 		{
@@ -20,28 +31,61 @@ namespace Ambiesoft {
 	public:
 		SimpleCommandLineParser(array<String^>^ args)
 		{
-			if ( args == nullptr )
+			args_=args;
+		}
+
+		void addOption(String^ option, ARGUMENT_TYPE hasArgument)
+		{
+			def_validops_[option] = hasArgument;
+		}
+
+		void Parse()
+		{
+			if ( args_ == nullptr )
 				return;
 
-			for ( int i=0 ; i < args->Length ; ++i )
+			for ( int i=0 ; i < args_->Length ; ++i )
 			{
-				String^ s = args[i];
+				String^ s = args_[i];
 				if ( isOptionLeft(s) )
 				{
 					s = s->TrimStart(gcnew array<Char>{'/','-'});
-					bool determined = false;
-					if ( args->Length > i )
+
+					ARGUMENT_TYPE inv;
+					if(!def_validops_.TryGetValue(s, inv))
 					{
-						if ( !isOptionLeft(args[i+1]) )
+						in_invalidops_.Add(s);
+					}
+					else
+					{
+						// valid option
+						if(inv==ARGUMENT_TYPE::MUSTNOT)
 						{
-							hashes_[s] = args[i+1];
-							++i;
-							determined = true;
+							in_validops_[s] = true;
+						}
+						else
+						{
+							if ( args_->Length > (i+1) )
+							{
+								if ( !isOptionLeft(args_[i+1]) )
+								{
+									in_validops_[s] = args_[i+1];
+									++i;
+								}
+							}
+							else
+							{
+								if(inv==ARGUMENT_TYPE::MUST)
+								{
+									in_validops_[s] = "";
+								}
+								else
+								{
+									in_validops_[s] = true;
+								}
+							}
 						}
 					}
-
-					if ( !determined )
-						hashes_[s] = true;
 				}
 				else
 				{
@@ -54,7 +98,9 @@ namespace Ambiesoft {
 		{
 			Object^ get(String^ s)
 			{
-				return hashes_[s];
+				Object^ ret;
+				in_validops_.TryGetValue(s,ret);
+				return ret;
 			}
 		}
 
@@ -72,6 +118,40 @@ namespace Ambiesoft {
 			{
 				return mainargs_.Count;
 			}
+		}
+
+		array<String^>^ getInvalidOptions()
+		{
+			return in_invalidops_.ToArray();
+		}
+
+		String^ DebugOutput()
+		{
+			System::Text::StringBuilder sb;
+			sb.AppendLine("valid optioins:");
+			for each(KeyValuePair<String^,Object^> kv in in_validops_)
+			{
+				sb.Append(kv.Key);
+				sb.Append(" : ");
+				sb.Append(kv.Value);
+				sb.AppendLine();
+			}
+			
+			sb.AppendLine();
+			sb.AppendLine("invalid options:");
+			for each(String^ s in in_invalidops_)
+			{
+				sb.AppendLine(s);
+			}
+
+			sb.AppendLine();
+			sb.AppendLine("main args:");
+			for each(String^ m in mainargs_)
+			{
+				sb.AppendLine(m);
+			}
+
+			return sb.ToString();
 		}
 	};
 }
