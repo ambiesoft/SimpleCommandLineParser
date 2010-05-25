@@ -34,9 +34,13 @@ namespace Ambiesoft {
 			args_=args;
 		}
 
-		void addOption(String^ option, ARGUMENT_TYPE hasArgument)
+		void addOption(String^ option, ARGUMENT_TYPE hasArgument, String^ description)
 		{
 			def_validops_[option] = hasArgument;
+		}
+		void addOption(String^ option, ARGUMENT_TYPE hasArgument)
+		{
+			addOption(option, hasArgument, L"");
 		}
 
 		void Parse()
