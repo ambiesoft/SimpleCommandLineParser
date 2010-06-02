@@ -14,11 +14,24 @@ namespace Ambiesoft {
 		BOTH,
 	};
 
+	private ref class ArgumentInfo
+	{
+	public:
+		ArgumentInfo(ARGUMENT_TYPE argType, String^ description)
+		{
+			argType_ = argType;
+			description_ = description;
+		}
+
+		initonly ARGUMENT_TYPE argType_;
+		initonly String^ description_;
+	};
+
 	public ref class SimpleCommandLineParser
 	{
 	private:
 		array<String^>^ args_;
-		Dictionary<String^,ARGUMENT_TYPE> def_validops_;
+		Dictionary<String^,ArgumentInfo^> def_validops_;
 		Dictionary<String^,Object^> in_validops_;
 		List<String^> in_invalidops_;
 		List<String^> mainargs_;
@@ -34,9 +47,13 @@ namespace Ambiesoft {
 			args_=args;
 		}
 
-		void addOption(String^ option, ARGUMENT_TYPE hasArgument, String^ description)
+		/***
+		* 
+		*/
+		void addOption(String^ option, ARGUMENT_TYPE argType, String^ description)
 		{
-			def_validops_[option] = hasArgument;
+			ArgumentInfo^ ai = gcnew ArgumentInfo(argType, description);
+			def_validops_[option] = ai;
 		}
 		void addOption(String^ option, ARGUMENT_TYPE hasArgument)
 		{
@@ -55,15 +72,16 @@ namespace Ambiesoft {
 				{
 					s = s->TrimStart(gcnew array<Char>{'/','-'});
 
-					ARGUMENT_TYPE inv;
-					if(!def_validops_.TryGetValue(s, inv))
+					// ARGUMENT_TYPE inv;
+					ArgumentInfo^ ai;
+					if(!def_validops_.TryGetValue(s, ai))
 					{
 						in_invalidops_.Add(s);
 					}
 					else
 					{
 						// valid option
-						if(inv==ARGUMENT_TYPE::MUSTNOT)
+						if(ai->argType_==ARGUMENT_TYPE::MUSTNOT)
 						{
 							in_validops_[s] = true;
 						}
@@ -79,7 +97,7 @@ namespace Ambiesoft {
 							}
 							else
 							{
-								if(inv==ARGUMENT_TYPE::MUST)
+								if(ai->argType_==ARGUMENT_TYPE::MUST)
 								{
 									in_validops_[s] = "";
 								}
@@ -127,6 +145,35 @@ namespace Ambiesoft {
 		array<String^>^ getInvalidOptions()
 		{
 			return in_invalidops_.ToArray();
+		}
+
+		property String^ HelpString
+		{
+			String^ get()
+			{
+				System::Text::StringBuilder sb;
+				for each( KeyValuePair<String^, ArgumentInfo^> kv in def_validops_)
+				{
+					sb.Append(L"/");
+					sb.Append(kv.Key);
+					if ( kv.Value->argType_==ARGUMENT_TYPE::BOTH )
+					{
+						sb.Append(L" [arg] : ");
+					}
+					else if ( kv.Value->argType_==ARGUMENT_TYPE::MUST )
+					{
+						sb.Append(L" arg : ");
+					}
+					else
+					{
+						sb.Append(L" : ");
+					}
+					sb.Append(kv.Value->description_);
+					sb.AppendLine();
+				}
+
+				return sb.ToString();
+			}
 		}
 
 		String^ DebugOutput()
