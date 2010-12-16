@@ -12,16 +12,21 @@ Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
 		Release|Win32 = Release|Win32
+		Ship|Win32 = Ship|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{F72AF017-37C4-4C17-896E-A168D4D8A88D}.Debug|Win32.ActiveCfg = Debug|Win32
 		{F72AF017-37C4-4C17-896E-A168D4D8A88D}.Debug|Win32.Build.0 = Debug|Win32
 		{F72AF017-37C4-4C17-896E-A168D4D8A88D}.Release|Win32.ActiveCfg = Release|Win32
 		{F72AF017-37C4-4C17-896E-A168D4D8A88D}.Release|Win32.Build.0 = Release|Win32
+		{F72AF017-37C4-4C17-896E-A168D4D8A88D}.Ship|Win32.ActiveCfg = Ship|Win32
+		{F72AF017-37C4-4C17-896E-A168D4D8A88D}.Ship|Win32.Build.0 = Ship|Win32
 		{BF85FB2B-83A2-43FF-AED0-6B07556E14AC}.Debug|Win32.ActiveCfg = Debug|Win32
 		{BF85FB2B-83A2-43FF-AED0-6B07556E14AC}.Debug|Win32.Build.0 = Debug|Win32
 		{BF85FB2B-83A2-43FF-AED0-6B07556E14AC}.Release|Win32.ActiveCfg = Release|Win32
 		{BF85FB2B-83A2-43FF-AED0-6B07556E14AC}.Release|Win32.Build.0 = Release|Win32
+		{BF85FB2B-83A2-43FF-AED0-6B07556E14AC}.Ship|Win32.ActiveCfg = Ship|Win32
+		{BF85FB2B-83A2-43FF-AED0-6B07556E14AC}.Ship|Win32.Build.0 = Ship|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
