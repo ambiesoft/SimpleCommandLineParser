@@ -1,7 +1,7 @@
 // TestApp.cpp : メイン プロジェクト ファイルです。
 
 #include "stdafx.h"
-#using "C:\\Linkout\\lib\\SimpleCommandLineParser.dll"
+
 
 using namespace System;
 using namespace System::Windows::Forms;
