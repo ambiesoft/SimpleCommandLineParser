@@ -121,7 +121,14 @@ namespace Ambiesoft
 
         public String getMainargs(int i)
         {
-            return mainargs_[i];
+            try
+            {
+                return mainargs_[i];
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         public int MainargLength
