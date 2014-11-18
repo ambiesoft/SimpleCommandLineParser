@@ -117,7 +117,12 @@ namespace Ambiesoft
             }
         }
 
-
+        public string getString(string s)
+        {
+            Object ret;
+            in_validops_.TryGetValue(s, out ret);
+            return ret == null ? null : ret.ToString();
+        }
 
         public String getMainargs(int i)
         {
