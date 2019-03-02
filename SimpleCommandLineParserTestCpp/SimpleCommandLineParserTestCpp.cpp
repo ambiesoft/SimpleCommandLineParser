@@ -1,4 +1,4 @@
-// TestApp.cpp : ƒƒCƒ“ ƒvƒƒWƒFƒNƒg ƒtƒ@ƒCƒ‹‚Å‚·B
+ï»¿
 
 #include "stdafx.h"
 
@@ -13,7 +13,7 @@ int main(array<System::String ^> ^args)
 	parser->addOption("h", ARGUMENT_TYPE::MUSTNOT, "Show Help");
 	parser->addOption("?", ARGUMENT_TYPE::MUSTNOT, "Show Help");
 	parser->addOption("ok", ARGUMENT_TYPE::MUST, "OK");
-	parser->addOption("b", ARGUMENT_TYPE::BOTH, "‚Ç‚Á‚¿‚Å‚à‚¢‚¢‚æ");
+	parser->addOption("b", ARGUMENT_TYPE::BOTH, "Both is ok");
 
 	parser->Parse();
 

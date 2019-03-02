@@ -59,7 +59,8 @@ namespace Ambiesoft
             for (int i = 0; i < args_.Length; ++i)
             {
                 String s = args_[i];
-                if (isOptionLeft(s))
+
+                if (s != "--" && isOptionLeft(s))
                 {
                     s = s.TrimStart(new char[] { '/', '-' });
 
@@ -80,7 +81,12 @@ namespace Ambiesoft
                         {
                             if (args_.Length > (i + 1))
                             {
-                                if (!isOptionLeft(args_[i + 1]))
+                                if (args_[i + 1] == "--")
+                                {
+                                    in_validops_[s] = args_[i + 2];
+                                    i += 2;
+                                }
+                                else if (!isOptionLeft(args_[i + 1]))
                                 {
                                     in_validops_[s] = args_[i + 1];
                                     ++i;
@@ -102,6 +108,11 @@ namespace Ambiesoft
                 }
                 else
                 {
+                    if(s=="--")
+                    {
+                        ++i;
+                        s = args_[i];
+                    }
                     mainargs_.Add(s);
                 }
             }
