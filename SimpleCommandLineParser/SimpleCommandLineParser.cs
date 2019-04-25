@@ -79,15 +79,19 @@ namespace Ambiesoft
                         }
                         else
                         {
+                            // Option has arguments
+                            // Unless it not begin with '/' or '-', assume argument.
                             if (args_.Length > (i + 1))
                             {
                                 if (args_[i + 1] == "--")
                                 {
+                                    // special "--", skip it and take next
                                     in_validops_[s] = args_[i + 2];
                                     i += 2;
                                 }
                                 else if (!isOptionLeft(args_[i + 1]))
                                 {
+                                    // normal value
                                     in_validops_[s] = args_[i + 1];
                                     ++i;
                                 }
@@ -166,7 +170,6 @@ namespace Ambiesoft
             {
                 System.Text.StringBuilder sb = new StringBuilder();
                 foreach (KeyValuePair<String, ArgumentInfo> kv in def_validops_)
-                // for each( KeyValuePair<String^, ArgumentInfo^> kv in def_validops_)
                 {
                     sb.Append("/");
                     sb.Append(kv.Key);
