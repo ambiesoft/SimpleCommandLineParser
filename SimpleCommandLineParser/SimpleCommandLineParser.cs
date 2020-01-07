@@ -27,9 +27,9 @@ namespace Ambiesoft
     {
         private String[] args_;
         private Dictionary<String, ArgumentInfo> def_validops_ = new Dictionary<string, ArgumentInfo>();
-        private Dictionary<String, Object> in_validops_ = new Dictionary<string, object>();
+        protected Dictionary<String, Object> in_validops_ = new Dictionary<string, object>();
         private List<String> in_invalidops_ = new List<string>();
-        private List<String> mainargs_ = new List<string>();
+        protected List<String> mainargs_ = new List<string>();
 
         private bool isOptionLeft(String s)
         {
@@ -220,6 +220,25 @@ namespace Ambiesoft
             }
 
             return sb.ToString();
+        }
+    }
+    public class SimpleCommandLineParserWritable : SimpleCommandLineParser
+    {
+        public SimpleCommandLineParserWritable(String[] args) : base(args) { }
+        new public Object this[String s]
+        {
+            get 
+            {
+                return base[s];
+            }
+            set
+            {
+                in_validops_[s] = value;
+            }
+        }
+        public void SetMainArgs(string[] args)
+        {
+            mainargs_ = new List<string>(args);
         }
     }
 }
